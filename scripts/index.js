@@ -3,7 +3,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 const placesList = document.querySelector('.places__list');
 
 function cardCreation(name, link, deleteItem) {
-    const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
+    const cardItem = cardTemplate.cloneNode(true);
     const cardImage = cardItem.querySelector('.card__image');
 
     cardItem.querySelector('.card__title').textContent = name;
