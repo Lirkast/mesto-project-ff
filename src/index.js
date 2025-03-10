@@ -7,21 +7,22 @@ import { cardCreation, likeCard, deleteItem } from './scripts/cardFunctional.js'
 
 const elements = {
   editButton: document.querySelector('.profile__edit-button'),
-  addButton: document.querySelector('.profile__add-button'),
   editPopup: document.querySelector('.popup_type_edit'),
-  addPopup: document.querySelector('.popup_type_new-card'),
   imagePopup: document.querySelector('.popup_type_image'),
+  addButton: document.querySelector('.profile__add-button'),
   profileTitle: document.querySelector('.profile__title'),
-  profileDescription: document.querySelector('.profile__description'),
-  formElement: document.querySelector('.popup_type_edit .popup__form'),
-  nameInput: document.querySelector('.popup__input_type_name'),
   descriptionInput: document.querySelector('.popup__input_type_description'),
-  newForm: document.querySelector('.popup_type_new-card .popup__form'),
-  cardNameInput: document.querySelector('.popup__input_type_card-name'),
-  cardLinkInput: document.querySelector('.popup__input_type_url'),
   placesList: document.querySelector('.places__list'),
   popupImage: document.querySelector('.popup__image'),
   popupCaption: document.querySelector('.popup__caption'),
+  profileDescription: document.querySelector('.profile__description'),
+  formElement: document.querySelector('.popup_type_edit .popup__form'),
+  nameInput: document.querySelector('.popup__input_type_name'),
+  addPopup: document.querySelector('.popup_type_new-card'),
+  newForm: document.querySelector('.popup_type_new-card .popup__form'),
+  cardNameInput: document.querySelector('.popup__input_type_card-name'),
+  cardLinkInput: document.querySelector('.popup__input_type_url'),
+
 };
 
 const popups = document.querySelectorAll('.popup');
