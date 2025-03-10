@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js', 
-    publicPath: '/', 
+    publicPath: '', 
     clean: true, 
   },
   mode: 'development',
@@ -49,7 +49,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      publicPath: '/', 
+      publicPath: '', 
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({

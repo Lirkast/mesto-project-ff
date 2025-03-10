@@ -4,7 +4,7 @@ export function likeCard(likeButton) {
   likeButton.classList.toggle('card__like-button_is-active');
 }
 
-export function cardCreation(name, link, deleteEl, likeEl, imageEl) {
+export function creationCard(name, link, deleteEl, likeEl, imageEl) {
 
   const cardItem = cardTemplate.cloneNode(true).querySelector('.card');
   const cardImage = cardItem.querySelector('.card__image');

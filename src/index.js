@@ -2,8 +2,10 @@ import './pages/index.css';
 import avatar from './images/avatar.jpg';
 import logo from './images/logo.svg';
 import { initialCards } from './scripts/cards.js';
-import { openModal, exitModal } from './scripts/modalWindow.js';
-import { cardCreation, likeCard, deleteItem } from './scripts/cardFunctional.js';
+import { openModal, exitModal } from './scripts/modal.js';
+import { creationCard, likeCard, deleteItem } from './scripts/card.js';
+
+
 
 const elements = {
   editButton: document.querySelector('.profile__edit-button'),
@@ -16,7 +18,7 @@ const elements = {
   popupImage: document.querySelector('.popup__image'),
   popupCaption: document.querySelector('.popup__caption'),
   profileDescription: document.querySelector('.profile__description'),
-  formElement: document.querySelector('.popup_type_edit .popup__form'),
+  editProfileForm: document.querySelector('.popup_type_edit .popup__form'),
   nameInput: document.querySelector('.popup__input_type_name'),
   addPopup: document.querySelector('.popup_type_new-card'),
   newForm: document.querySelector('.popup_type_new-card .popup__form'),
@@ -55,7 +57,7 @@ function addCardSubmit(evt) {
     link: elements.cardLinkInput.value,
   };
 
-  const newCardContent = cardCreation(newCardEl.name, newCardEl.link, deleteItem, likeCard, openImage);
+  const newCardContent = creationCard(newCardEl.name, newCardEl.link, deleteItem, likeCard, openImage);
   elements.placesList.prepend(newCardContent);
   exitModal(elements.addPopup);
   elements.newForm.reset();
@@ -79,10 +81,10 @@ elements.addButton.addEventListener('click', () => {
   openModal(elements.addPopup);
 });
 
-elements.formElement.addEventListener('submit', handleUserFormSubmit);
+elements.editProfileForm.addEventListener('submit', handleUserFormSubmit);
 elements.newForm.addEventListener('submit', addCardSubmit);
 
 initialCards.forEach((cardContent) => {
-  const cardElement = cardCreation(cardContent.name, cardContent.link, deleteItem, likeCard, openImage);
+  const cardElement = creationCard(cardContent.name, cardContent.link, deleteItem, likeCard, openImage);
   elements.placesList.append(cardElement);
 });
