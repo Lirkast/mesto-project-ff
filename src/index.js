@@ -3,7 +3,7 @@ import avatar from './images/avatar.jpg';
 import logo from './images/logo.svg';
 import { openModal, exitModal } from './scripts/modal.js';
 import { creationCard, likeCard, deleteItem, openDeletePopup, likeCardHandler } from './scripts/card.js';
-import { initializeValidation, resetValidation, enableValidation } from './scripts/validation.js'; 
+import { initializeValidation, resetValidation, validationConfig } from './scripts/validation.js';
 import { getInitialCards, getProfile, editProfile, addNewCard, removeCard, likeCardA, unlikeCardA, editProfileAvatar } from './scripts/api.js';
 
 const elements = {
@@ -113,7 +113,7 @@ function addCardSubmit(evt) {
       elements.placesList.prepend(newCardContent);
       exitModal(elements.addPopup);
       elements.newForm.reset();
-      resetValidation(elements.newForm, enableValidation);
+      resetValidation(elements.newForm, validationConfig);
     })
     .catch((err) => console.log(err))
     .finally(() => (submitButton.textContent = 'Сохранить'));
@@ -144,7 +144,7 @@ function submitAvatarForm(evt) {
       elements.profileImage.style.backgroundImage = `url(${profile.avatar})`;
       exitModal(elements.avatarPopup);
       elements.avatarForm.reset();
-      resetValidation(elements.avatarForm, enableValidation);
+      resetValidation(elements.avatarForm, validationConfig);
     })
     .catch((err) => console.log(err))
     .finally(() => (submitButton.textContent = 'Сохранить'));
@@ -155,19 +155,19 @@ elements.editButton.addEventListener('click', () => {
   elements.nameInput.value = elements.profileTitle.textContent;
   elements.descriptionInput.value = elements.profileDescription.textContent;
   openModal(elements.editPopup);
-  resetValidation(elements.editProfileForm, enableValidation);
+  resetValidation(elements.editProfileForm, validationConfig);
 });
 
 elements.addButton.addEventListener('click', () => {
   elements.newForm.reset();
   openModal(elements.addPopup);
-  resetValidation(elements.newForm, enableValidation);
+  resetValidation(elements.newForm, validationConfig);
 });
 
 elements.avatarEditButton.addEventListener('click', () => {
   elements.avatarForm.reset();
   openModal(elements.avatarPopup);
-  resetValidation(elements.avatarForm, enableValidation);
+  resetValidation(elements.avatarForm, validationConfig);
 });
 
 elements.editProfileForm.addEventListener('submit', handleUserFormSubmit);
@@ -176,4 +176,4 @@ elements.deleteForm.addEventListener('submit', submitDeleteCard);
 elements.avatarForm.addEventListener('submit', submitAvatarForm);
 
 // Включаем валидацию
-initializeValidation(enableValidation);
+initializeValidation(validationConfig);
