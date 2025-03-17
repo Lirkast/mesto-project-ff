@@ -2,7 +2,7 @@ import './pages/index.css';
 import avatar from './images/avatar.jpg';
 import logo from './images/logo.svg';
 import { openModal, exitModal } from './scripts/modal.js';
-import { creationCard, likeCard, deleteItem } from './scripts/card.js';
+import { creationCard, likeCard, deleteItem, openDeletePopup, likeCardHandler } from './scripts/card.js';
 import { initializeValidation, resetValidation, enableValidation } from './scripts/validation.js'; 
 import { getInitialCards, getProfile, editProfile, addNewCard, removeCard, likeCardA, unlikeCardA, editProfileAvatar } from './scripts/api.js';
 
@@ -54,7 +54,13 @@ Promise.all([getProfile(), getInitialCards()])
     userId = profile._id;
 
     cards.forEach((cardContent) => {
-      const cardElement = creationCard(cardContent, userId, deleteItem, likeCard, openImage);
+      const cardElement = creationCard(
+        cardContent,
+        userId,
+        openDeletePopup,
+        likeCardHandler,
+        openImage
+      );
       elements.placesList.append(cardElement);
     });
   })
@@ -96,26 +102,26 @@ function addCardSubmit(evt) {
   };
 
   addNewCard(newCardEl)
-  .then((card) => {
-    const newCardContent = creationCard(card, userId, deleteItem, likeCard, openImage);
-    elements.placesList.prepend(newCardContent);
-    exitModal(elements.addPopup);
-    elements.newForm.reset();
-    resetValidation(elements.newForm, enableValidation);
-  })
-  .catch((err) => console.log(err))
-  .finally(() => (submitButton.textContent = 'Сохранить'));
+    .then((card) => {
+      const newCardContent = creationCard(
+        card,
+        userId,
+        openDeletePopup,
+        likeCardHandler,
+        openImage
+      );
+      elements.placesList.prepend(newCardContent);
+      exitModal(elements.addPopup);
+      elements.newForm.reset();
+      resetValidation(elements.newForm, enableValidation);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => (submitButton.textContent = 'Сохранить'));
 }
 
 // Удаление карточки
 let cardElementToDelete = null;
 let cardIdToDelete = null;
-
-function openDeletePopup(cardElement, cardId) {
-  cardElementToDelete = cardElement;
-  cardIdToDelete = cardId;
-  openModal(elements.deletePopup);
-}
 
 function submitDeleteCard(evt) {
   evt.preventDefault();
@@ -123,17 +129,6 @@ function submitDeleteCard(evt) {
     .then(() => {
       deleteItem(cardElementToDelete);
       exitModal(elements.deletePopup);
-    })
-    .catch((err) => console.log(err));
-}
-
-// Лайк карточки
-function LikeCard(card, likeButton, likesCount) {
-  const isLiked = likeButton.classList.contains('card__like-button_is-active');
-  (isLiked ? unlikeCardA : likeCardA)(card._id)
-    .then((updatedCard) => {
-      likeCard(likeButton);
-      likesCount.textContent = updatedCard.likes.length;
     })
     .catch((err) => console.log(err));
 }
@@ -149,7 +144,7 @@ function submitAvatarForm(evt) {
       elements.profileImage.style.backgroundImage = `url(${profile.avatar})`;
       exitModal(elements.avatarPopup);
       elements.avatarForm.reset();
-      clearValidation(elements.avatarForm, enableValidation);
+      resetValidation(elements.avatarForm, enableValidation);
     })
     .catch((err) => console.log(err))
     .finally(() => (submitButton.textContent = 'Сохранить'));
@@ -180,8 +175,5 @@ elements.newForm.addEventListener('submit', addCardSubmit);
 elements.deleteForm.addEventListener('submit', submitDeleteCard);
 elements.avatarForm.addEventListener('submit', submitAvatarForm);
 
-// включаем валидацию
+// Включаем валидацию
 initializeValidation(enableValidation);
-
-// Экспорт для card.js
-export { openDeletePopup, LikeCard };

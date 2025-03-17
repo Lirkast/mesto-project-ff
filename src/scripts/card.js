@@ -1,4 +1,9 @@
-import { openDeletePopup, LikeCard } from '../index.js';
+import { openModal } from './modal.js';
+import { likeCardA, unlikeCardA } from './api.js';
+
+// Переменные для удаления карточки (перенесены из index.js)
+let cardElementToDelete = null;
+let cardIdToDelete = null;
 
 export function creationCard(cardContent, userId, deleteCallback, likeCallback, imageCallback) {
   const cardTemplate = document.querySelector('#card-template').content;
@@ -17,14 +22,14 @@ export function creationCard(cardContent, userId, deleteCallback, likeCallback, 
   if (cardContent.owner._id !== userId) {
     deleteButton.style.display = 'none';
   } else {
-    deleteButton.addEventListener('click', () => openDeletePopup(cardElement, cardContent._id));
+    deleteButton.addEventListener('click', () => deleteCallback(cardElement, cardContent._id));
   }
 
   if (cardContent.likes.some((like) => like._id === userId)) {
     likeButton.classList.add('card__like-button_is-active');
   }
 
-  likeButton.addEventListener('click', () => LikeCard(cardContent, likeButton, likesCount));
+  likeButton.addEventListener('click', () => likeCallback(cardContent, likeButton, likesCount));
   cardImage.addEventListener('click', () => imageCallback(cardContent));
 
   return cardElement;
@@ -36,4 +41,20 @@ export function deleteItem(cardElement) {
 
 export function likeCard(likeButton) {
   likeButton.classList.toggle('card__like-button_is-active');
+}
+
+export function openDeletePopup(cardElement, cardId) {
+  cardElementToDelete = cardElement;
+  cardIdToDelete = cardId;
+  openModal(document.querySelector('.popup_type_delete-card')); // Используем прямой запрос вместо elements
+}
+
+export function likeCardHandler(card, likeButton, likesCount) {
+  const isLiked = likeButton.classList.contains('card__like-button_is-active');
+  (isLiked ? unlikeCardA : likeCardA)(card._id)
+    .then((updatedCard) => {
+      likeCard(likeButton);
+      likesCount.textContent = updatedCard.likes.length;
+    })
+    .catch((err) => console.log(err));
 }
