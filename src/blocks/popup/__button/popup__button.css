@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: #000; 
   border-radius: 2px;
   border: none;
   transition: visibility 0s, background 0.3s;
@@ -24,4 +24,18 @@
     font-size: 14px;
     line-height: 17px;
   }
+}
+
+.popup__button_disabled {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: default;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+.popup__button_disabled:hover {
+  background: #fff;
+  opacity: 1;
 }
