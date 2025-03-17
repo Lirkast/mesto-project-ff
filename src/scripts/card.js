@@ -1,7 +1,6 @@
-import { openModal } from './modal.js';
-import { likeCardA, unlikeCardA } from './api.js';
+import { openModal, exitModal } from './modal.js';
+import { likeCardA, unlikeCardA, removeCard } from './api.js';
 
-// Переменные для удаления карточки (перенесены из index.js)
 let cardElementToDelete = null;
 let cardIdToDelete = null;
 
@@ -46,7 +45,19 @@ export function likeCard(likeButton) {
 export function openDeletePopup(cardElement, cardId) {
   cardElementToDelete = cardElement;
   cardIdToDelete = cardId;
-  openModal(document.querySelector('.popup_type_delete-card')); // Используем прямой запрос вместо elements
+  openModal(document.querySelector('.popup_type_delete-card'));
+}
+
+export function submitDeleteCard(evt) {
+  evt.preventDefault();
+  removeCard(cardIdToDelete)
+    .then(() => {
+      deleteItem(cardElementToDelete);
+      exitModal(document.querySelector('.popup_type_delete-card'));
+      cardElementToDelete = null; // Очистка после удаления
+      cardIdToDelete = null;
+    })
+    .catch((err) => console.log(err));
 }
 
 export function likeCardHandler(card, likeButton, likesCount) {

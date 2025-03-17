@@ -2,7 +2,7 @@ import './pages/index.css';
 import avatar from './images/avatar.jpg';
 import logo from './images/logo.svg';
 import { openModal, exitModal } from './scripts/modal.js';
-import { creationCard, likeCard, deleteItem, openDeletePopup, likeCardHandler } from './scripts/card.js';
+import { creationCard, likeCard, deleteItem, openDeletePopup, likeCardHandler, submitDeleteCard } from './scripts/card.js';
 import { initializeValidation, resetValidation, validationConfig } from './scripts/validation.js';
 import { getInitialCards, getProfile, editProfile, addNewCard, removeCard, likeCardA, unlikeCardA, editProfileAvatar } from './scripts/api.js';
 
@@ -117,20 +117,6 @@ function addCardSubmit(evt) {
     })
     .catch((err) => console.log(err))
     .finally(() => (submitButton.textContent = 'Сохранить'));
-}
-
-// Удаление карточки
-let cardElementToDelete = null;
-let cardIdToDelete = null;
-
-function submitDeleteCard(evt) {
-  evt.preventDefault();
-  removeCard(cardIdToDelete)
-    .then(() => {
-      deleteItem(cardElementToDelete);
-      exitModal(elements.deletePopup);
-    })
-    .catch((err) => console.log(err));
 }
 
 // Обновление аватара
